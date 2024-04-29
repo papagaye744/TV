@@ -55,6 +55,7 @@ import com.fongmi.android.tv.ui.dialog.PassDialog;
 import com.fongmi.android.tv.ui.dialog.SubtitleDialog;
 import com.fongmi.android.tv.ui.dialog.TrackDialog;
 import com.fongmi.android.tv.ui.presenter.ChannelPresenter;
+import com.fongmi.android.tv.ui.presenter.EpgPresenter;
 import com.fongmi.android.tv.ui.presenter.GroupPresenter;
 import com.fongmi.android.tv.utils.Biometric;
 import com.fongmi.android.tv.utils.Clock;
@@ -74,11 +75,12 @@ import java.util.List;
 
 import tv.danmaku.ijk.media.player.ui.IjkVideoView;
 
-public class LiveActivity extends BaseActivity implements Clock.Callback, GroupPresenter.OnClickListener, ChannelPresenter.OnClickListener, CustomKeyDownLive.Listener, CustomLiveListView.Callback, TrackDialog.Listener, Biometric.Callback, PassCallback, LiveCallback, SubtitleCallback {
+public class LiveActivity extends BaseActivity implements Clock.Callback, GroupPresenter.OnClickListener, ChannelPresenter.OnClickListener, EpgPresenter.OnClickListener, CustomKeyDownLive.Listener, CustomLiveListView.Callback, TrackDialog.Listener, Biometric.Callback, PassCallback, LiveCallback, SubtitleCallback {
 
     private ActivityLiveBinding mBinding;
     private ArrayObjectAdapter mChannelAdapter;
     private ArrayObjectAdapter mGroupAdapter;
+    private ArrayObjectAdapter mEpgAdapter;
     private CustomKeyDownLive mKeyDown;
     private LiveViewModel mViewModel;
     private List<Group> mHides;
@@ -190,8 +192,10 @@ public class LiveActivity extends BaseActivity implements Clock.Callback, GroupP
     private void setRecyclerView() {
         mBinding.group.setItemAnimator(null);
         mBinding.channel.setItemAnimator(null);
+        mBinding.epg.setItemAnimator(null);
         mBinding.group.setAdapter(new ItemBridgeAdapter(mGroupAdapter = new ArrayObjectAdapter(new GroupPresenter(this))));
         mBinding.channel.setAdapter(new ItemBridgeAdapter(mChannelAdapter = new ArrayObjectAdapter(new ChannelPresenter(this))));
+        mBinding.epg.setAdapter(new ItemBridgeAdapter(mEpgAdapter = new ArrayObjectAdapter(new EpgPresenter(this))));
     }
 
     private void setPlayerView() {
@@ -571,6 +575,16 @@ public class LiveActivity extends BaseActivity implements Clock.Callback, GroupP
         if (exist) delKeep(item);
         else addKeep(item);
         return true;
+    }
+
+    @Override
+    public void onItemClick(Epg item) {
+
+    }
+
+    @Override
+    public boolean onLongClick(Epg item) {
+        return false;
     }
 
     private void addKeep(Channel item) {
