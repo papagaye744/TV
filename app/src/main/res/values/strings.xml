@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="http://schemas.android.com/apk/res-auto" tools:ignore="MissingTranslation">
 
     <!-- App -->
-    <string name="app_name">TV</string>
+    <string name="app_name">OKTV</string>
     <string name="app_exit">Press back again to exit</string>
 
     <!-- Vod -->
@@ -76,25 +76,29 @@
     <string name="setting_danmu">Danmu setting</string>
     <string name="setting_custom">Custom setting</string>
     <string name="setting_config_cache">Config cache</string>
+    <string name="setting_cache_dir">Thunder cache</string>
     <string name="setting_reset">Reset app</string>
     <string name="setting_quality">Image quality</string>
     <string name="setting_size">Image size</string>
     <string name="setting_aggregated_search">Aggregated search</string>
+    <string name="setting_language">Lanuage setting</string>
     <string name="setting_parse_webview">Parse webview</string>
     <string name="setting_fullscreen_menu_key">Fullscreen menu key</string>
     <string name="setting_home_menu_key">Home menu key</string>
     <string name="setting_home_site_lock">Home site lock</string>
     <string name="setting_incognito">Incognito mode</string>
+    <string name="setting_remove_ad">Remove ads</string>
     <string name="setting_small_window_back_key">Small window back key</string>
-    <string name="setting_home_change_config">Home change config</string>
+    <string name="setting_home_display_name">Home display name</string>
     <string name="setting_home_ui">Home ui style</string>
     <string name="setting_home_buttons">Home buttons</string>
     <string name="setting_doh">DoH</string>
     <string name="setting_proxy">Proxy</string>
     <string name="setting_cache">Cache</string>
     <string name="setting_backup">Backup</string>
-    <string name="setting_backup_auto">Auto</string>
+    <string name="setting_restore">Restore</string>
     <string name="setting_version">Version</string>
+    <string name="setting_about">About</string>
     <string name="setting_storage">Permission</string>
     <string name="setting_off">Off</string>
     <string name="setting_on">On</string>
@@ -118,6 +122,7 @@
     <string name="player_exo_tunnel">Tunnel mode</string>
     <string name="player_exo_http">HTTP method</string>
     <string name="player_exo_buffer">Buffer time</string>
+    <string name="player_rtsp">RTSP channel</string>
     <string name="player_ua">User-Agent</string>
 
     <!-- Search -->
@@ -138,6 +143,8 @@
     <string name="dialog_delete_history">All history records will be removed.</string>
     <string name="dialog_reset_app">Reset app?</string>
     <string name="dialog_reset_app_data">All app data will be reset, and app will be shutdown.</string>
+    <string name="dialog_restore">Restore backup data?</string>
+    <string name="dialog_restore_msg">Config, history and setting will be restored.</string>
 
     <!-- Error -->
     <string name="error_config_get">Configuration get failed</string>
@@ -171,12 +178,18 @@
 
     <!-- Hint -->
     <string name="copied">Copied</string>
+    <string name="backed">Backup successful</string>
     <string name="config_refreshed">Config rereshed</string>
 
     <!-- UNIT -->
     <string name="all">All</string>
     <string name="times">times</string>
     <string name="lines">lines</string>
+
+    <string-array name="select_backup">
+        <item>Auto</item>
+        <item>Manual</item>
+    </string-array>
 
     <string-array name="select_decode">
         <item>Soft</item>
@@ -259,6 +272,12 @@
         <item>Setting page</item>
     </string-array>
 
+    <string-array name="select_language">
+        <item>English</item>
+        <item>Simplified Chinese</item>
+        <item>Traditional Chinese</item>
+    </string-array>
+
     <string-array name="select_parse_webview">
         <item>System</item>
         <item>X5 WebView</item>
@@ -294,6 +313,11 @@
         <item>Select audio track</item>
         <item>Select video track</item>
         <item>Select subtitle track</item>
+    </string-array>
+
+    <string-array name="select_rtsp">
+        <item>UDP</item>
+        <item>TCP</item>
     </string-array>
 
 </resources>

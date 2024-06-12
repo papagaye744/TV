@@ -41,6 +41,7 @@ public class VodConfig {
     private List<Site> sites;
     private List<Parse> parses;
     private List<String> flags;
+    private List<String> ads;
     private JarLoader jarLoader;
     private PyLoader pyLoader;
     private JsLoader jsLoader;
@@ -48,7 +49,6 @@ public class VodConfig {
     private Config config;
     private Parse parse;
     private String wall;
-    private String ads;
     private Site home;
 
     private static class Loader {
@@ -84,11 +84,11 @@ public class VodConfig {
     }
 
     public VodConfig init() {
-        this.ads = null;
         this.wall = null;
         this.home = null;
         this.parse = null;
         this.config = Config.vod();
+        this.ads = new ArrayList<>();
         this.doh = new ArrayList<>();
         this.rules = new ArrayList<>();
         this.sites = new ArrayList<>();
@@ -107,10 +107,10 @@ public class VodConfig {
     }
 
     public VodConfig clear() {
-        this.ads = null;
         this.wall = null;
         this.home = null;
         this.parse = null;
+        this.ads.clear();
         this.doh.clear();
         this.rules.clear();
         this.sites.clear();
@@ -153,7 +153,9 @@ public class VodConfig {
     }
 
     private void checkJson(JsonObject object, Callback callback) {
-        if (object.has("urls")) {
+        if (object.has("msg") && callback != null) {
+            App.post(() -> callback.error(object.get("msg").getAsString()));
+        } else if (object.has("urls")) {
             parseDepot(object, callback);
         } else {
             parseConfig(object, callback);
@@ -176,6 +178,7 @@ public class VodConfig {
             initOther(object);
             if (loadLive && object.has("lives")) initLive(object);
             jarLoader.parseJar("", Json.safeString(object, "spider"));
+            config.logo(Json.safeString(object, "logo"));
             config.json(object.toString()).update();
             App.post(callback::success);
         } catch (Throwable e) {
@@ -194,7 +197,7 @@ public class VodConfig {
             if (sites.contains(site)) continue;
             site.setApi(parseApi(site.getApi()));
             site.setExt(parseExt(site.getExt()));
-            sites.add(site.sync());
+            sites.add(site.trans().sync());
         }
         for (Site site : sites) {
             if (site.getKey().equals(config.getHome())) {
@@ -320,7 +323,7 @@ public class VodConfig {
 
     public List<Parse> getParses(int type, String flag) {
         List<Parse> items = new ArrayList<>();
-        for (Parse item : getParses(type)) if (item.getExt().getFlag().contains(flag)) items.add(item);
+        for (Parse item : getParses(type)) if (item.getExt().getFlag().isEmpty() || item.getExt().getFlag().contains(flag)) items.add(item);
         if (items.isEmpty()) items.addAll(getParses(type));
         return items;
     }
@@ -333,12 +336,12 @@ public class VodConfig {
         this.flags.addAll(flags);
     }
 
-    public String getAds() {
-        return TextUtils.isEmpty(ads) ? "" : ads;
+    public List<String> getAds() {
+        return ads == null ? Collections.emptyList() : ads;
     }
 
     private void setAds(List<String> ads) {
-        this.ads = TextUtils.join(",", ads);
+        this.ads = ads;
     }
 
     public Config getConfig() {

@@ -3,7 +3,6 @@ package com.fongmi.android.tv.ui.base;
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 
@@ -41,9 +40,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         EventBus.getDefault().register(this);
         Util.hideSystemUI(this);
         setBackCallback();
-        setWall();
         initView();
         initEvent();
+    }
+
+    @Override
+    public void setContentView(View view) {
+        super.setContentView(view);
+        refreshWall();
     }
 
     protected Activity getActivity() {
@@ -92,11 +96,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         });
     }
 
-    private void setWall() {
+    private void refreshWall() {
         try {
             if (!customWall()) return;
             File file = FileUtil.getWall(Setting.getWall());
-            if (file.exists() && file.length() > 0) getWindow().setBackgroundDrawable(WallConfig.drawable(Drawable.createFromPath(file.getAbsolutePath())));
+            if (file.exists() && file.length() > 0) getWindow().setBackgroundDrawable(WallConfig.drawable(file));
             else getWindow().setBackgroundDrawableResource(ResUtil.getDrawable(file.getName()));
         } catch (Exception e) {
             getWindow().setBackgroundDrawableResource(R.drawable.wallpaper_1);
@@ -116,7 +120,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void onRefreshEvent(RefreshEvent event) {
         if (event.getType() != RefreshEvent.Type.WALL) return;
         WallConfig.get().setDrawable(null);
-        setWall();
+        refreshWall();
     }
 
     @Override
